@@ -8,9 +8,14 @@ export const appRouter = router({
     .input(z.void())
     .output(z.object({
       succeed: z.boolean(),
+      data: z.any(),
     }))
-    .query(() => {
-      return { succeed: true }
+    .query(async () => {
+      const response = await fetch('https://pokeapi.co/api/v2/pokemon/ditto', {
+        cache: 'no-cache',
+      })
+      const data = await response.json()
+      return { succeed: true, data }
     })
 })
 
